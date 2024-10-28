@@ -1,101 +1,150 @@
-import Image from "next/image";
+import Navbar from "@/components/Navbar"
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { ArrowRight, Type, Hash, ArrowUpDown, Wand2, CheckCircle, Clock, Zap } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Input } from "@/components/ui/input"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import Link from "next/link"
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="py-20 px-4 text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
+          Analyze and Transform Text in Seconds
+        </h1>
+        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          Our free tool helps you count words, analyze characters, and transform text with just a click.
+        </p>
+        <Link href="/tools">
+        <Button size="lg" className="font-semibold">
+          Try It Now <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+        </Link>
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Features Section */}
+      <section className="py-20 px-4 bg-muted">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Powerful Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Word Count", icon: Hash, description: "Quickly count words in your text" },
+              { title: "Character Analysis", icon: Type, description: "Get detailed character statistics" },
+              { title: "Case Conversion", icon: ArrowUpDown, description: "Convert to UPPER, lower, Title, or Sentence case" },
+              { title: "Text Transformation", icon: Wand2, description: "Transform your text in various ways" },
+            ].map((feature, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <feature.icon className="h-6 w-6" />
+                    <span className="ml-2">{feature.title}</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>{feature.description}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+          <ol className="space-y-4">
+            {[
+              "Enter your text in the provided text area.",
+              "Choose the analysis or transformation you want to perform.",
+              "Click the corresponding button to see instant results.",
+              "Copy or use the transformed text as needed.",
+            ].map((step, index) => (
+              <li key={index} className="flex items-center">
+                <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-primary text-primary-foreground font-bold mr-4">
+                  {index + 1}
+                </span>
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Compare Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">How We Compare</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-muted">
+                  <th className="p-4 text-left font-bold">Features</th>
+                  <th className="p-4 text-center font-bold">Our Tool</th>
+                  <th className="p-4 text-center font-bold">Others</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { feature: "Comprehensive Text Analysis & Transformation", us: true, others: "Limited" },
+                  { feature: "User Experience & Privacy", us: "Intuitive & Private", others: "Varies with Data Collection" },
+                  { feature: "Advanced Features & Regular Updates", us: "Included", others: "Premium or Unavailable" },
+                  { feature: "Real-time Analysis", us: true, others: "Often Delayed" },
+                  { feature: "Custom Reporting", us: "Flexible Options", others: "Limited or Premium" },
+                ].map((item, index) => (
+                  <tr key={index} className={index % 2 === 0 ? "bg-background" : "bg-muted"}>
+                    <td className="p-4 border">{item.feature}</td>
+                    <td className="p-4 border text-center">
+                      {item.us === true ? <CheckCircle className="inline h-5 w-5 text-green-500" /> : item.us}
+                    </td>
+                    <td className="p-4 border text-center">
+                      {item.others === true ? <CheckCircle className="inline h-5 w-5 text-green-500" /> : item.others}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      {/* Benefits Section */}
+      <section className="py-20 px-4 bg-muted">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Our Text Analyzer</h2>
+          <div className="grid gap-6">
+            {[
+              { title: "Fast and Efficient", icon: Zap, description: "Get instant results with our lightning-fast analysis engine." },
+              { title: "User-Friendly Interface", icon: CheckCircle, description: "Intuitive design makes it easy for anyone to use." },
+              { title: "Always Available", icon: Clock, description: "Access our tool 24/7 from any device with an internet connection." },
+            ].map((benefit, index) => (
+              <Alert key={index}>
+                <benefit.icon className="h-4 w-4" />
+                <AlertTitle>{benefit.title}</AlertTitle>
+                <AlertDescription>{benefit.description}</AlertDescription>
+              </Alert>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Ready to Analyze Your Text?</h2>
+          <p className="text-xl text-muted-foreground mb-8">
+            Start using our free text analyzer and transformer tool now. No sign-up required!
+          </p>
+          <Link href="/tools">
+          <Button size="lg" className="font-semibold">
+            Get Started <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+          </Link>
+        </div>
+      </section>
+
     </div>
-  );
+  )
 }
