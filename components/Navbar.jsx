@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { ModeToggle } from './ui/ModeToggle'
 import {
@@ -7,8 +8,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import Link from 'next/link'
+import { Button } from './ui/button'
+import { UserButton, useUser } from '@clerk/nextjs'
 
 export default function Navbar() {
+  const {isSignedIn} = useUser()
   return (
     <div className="container mx-auto flex flex-wrap p-1 items-center justify-between sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 backdrop-blur-sm">
       <a className="flex title-font font-medium items-center">
@@ -22,6 +26,10 @@ export default function Navbar() {
         <Link href="/tools" className='mr-5'>Tools</Link>
         <Link href="/about" className='mr-5'>About</Link>
         <Link href="/contact" className='mr-5'>Contact</Link>
+        <span className='mr-5'>
+        {  
+        isSignedIn ? <UserButton/> : <Link href="/sign-up"><Button variant="outline">Sign Up</Button></Link>        }
+        </span>
       </nav>
       <div className="flex items-center">
         <ModeToggle />
@@ -38,6 +46,9 @@ export default function Navbar() {
               <Link href="/tools">Tools</Link>
               <Link href="/about">About</Link>
               <Link href="/contact">Contact Us</Link>
+              <div>
+              {isSignedIn ? <UserButton/> : <Link href="/sign-up"><Button variant="outline">Sign Up</Button></Link>}
+              </div>
             </nav>
           </SheetContent>
         </Sheet>
