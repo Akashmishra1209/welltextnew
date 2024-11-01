@@ -14,7 +14,7 @@ import { UserButton, useUser } from '@clerk/nextjs'
 export default function Navbar() {
   const {isSignedIn} = useUser()
   return (
-    <div className="container mx-auto flex flex-wrap p-1 items-center justify-between sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 backdrop-blur-sm">
+    <div className="container mx-auto flex flex-wrap p-1 items-center justify-between sticky top-0 z-50 w-full lg:max-w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 backdrop-blur-sm">
       <a className="flex title-font font-medium items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-10 h-10 p-2 rounded-full" viewBox="0 0 24 24">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
@@ -28,7 +28,7 @@ export default function Navbar() {
         <Link href="/contact" className='mr-5'>Contact</Link>
         <span className='mr-5'>
         {  
-        isSignedIn ? <UserButton/> : <Link href="/sign-up"><Button variant="outline">Sign Up</Button></Link>        }
+        isSignedIn ? <UserButton/> : <Link href="/sign-up"><Button>Sign Up</Button></Link>        }
         </span>
       </nav>
       <div className="flex items-center">

@@ -20,6 +20,8 @@ import {
   Trash2,
   RotateCcw,
   FileText,
+  Upload,
+  Download,
 } from "lucide-react"
 
 export default function Tools() {
@@ -44,6 +46,33 @@ export default function Tools() {
   const addToHistory = (newText) => {
     setHistory(prev => [...prev.slice(0, historyIndex + 1), newText])
     setHistoryIndex(prev => prev + 1)
+  }
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const newText = e.target.result
+        setText(newText)
+        updateCounts(newText)
+        addToHistory(newText)
+      }
+      reader.readAsText(file)
+    }
+  }
+
+  const downloadTextFile = () => {
+    const filename= prompt("Enter The File Name","WellText")
+    const blob = new Blob([text], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = file+".txt"
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
   const transformText = (transformation) => {
@@ -83,6 +112,30 @@ export default function Tools() {
         break
       case 'kebabCase':
         newText = text.replace(/\s+/g, '-').toLowerCase()
+        break
+      case 'titleCase':
+        newText = text.toLowerCase().split(' ').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ')
+        break
+      case 'alternatingCase':
+        newText = text.split('').map((char, i) => 
+          i % 2 === 0 ? char.toLowerCase() : char.toUpperCase()
+        ).join('')
+        break
+      case 'reverseWords':
+        newText = text.split(' ').map(word => 
+          word.split('').reverse().join('')
+        ).join(' ')
+        break
+      case 'removePunctuation':
+        newText = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+        break
+      case 'removeNumbers':
+        newText = text.replace(/[0-9]/g, '')
+        break
+      case 'countWords':
+        newText = text.trim().split(/\s+/).filter(Boolean).length.toString()
         break
       default:
         break
@@ -148,6 +201,21 @@ export default function Tools() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="relative">
+            <input
+              type="file"
+              id="file-upload"
+              className="hidden"
+              accept=".txt"
+              onChange={handleFileUpload}
+            />
+            <Button
+              onClick={() => document.getElementById('file-upload').click()}
+              className="flex items-center justify-center w-full"
+            >
+              <Upload className="mr-2 h-4 w-4" /> Upload File
+            </Button>
+          </div>
           <Button onClick={() => transformText('uppercase')} className="flex items-center justify-center">
             <ArrowUpDown className="mr-2 h-4 w-4" /> UPPERCASE
           </Button>
@@ -157,8 +225,17 @@ export default function Tools() {
           <Button onClick={() => transformText('capitalize')} className="flex items-center justify-center">
             <ArrowUpDown className="mr-2 h-4 w-4" /> Capitalize
           </Button>
+          <Button onClick={() => transformText('titleCase')} className="flex items-center justify-center">
+            <Type className="mr-2 h-4 w-4" /> Title Case
+          </Button>
+          <Button onClick={() => transformText('alternatingCase')} className="flex items-center justify-center">
+            <Type className="mr-2 h-4 w-4" /> aLtErNaTiNg
+          </Button>
           <Button onClick={() => transformText('reverse')} className="flex items-center justify-center">
             <ArrowUpDown className="mr-2 h-4 w-4" /> Reverse
+          </Button>
+          <Button onClick={() => transformText('reverseWords')} className="flex items-center justify-center">
+            <ArrowUpDown className="mr-2 h-4 w-4" /> Reverse Words
           </Button>
           <Button onClick={() => transformText('trim')} className="flex items-center justify-center">
             <Scissors className="mr-2 h-4 w-4" /> Trim
@@ -181,6 +258,12 @@ export default function Tools() {
           <Button onClick={() => setText(text.replace(/\s+/g, ' '))} className="flex items-center justify-center">
             <AlignJustify className="mr-2 h-4 w-4" /> Remove Extra Spaces
           </Button>
+          <Button onClick={() => transformText('removePunctuation')} className="flex items-center justify-center">
+            <Type className="mr-2 h-4 w-4" /> Remove Punctuation
+          </Button>
+          <Button onClick={() => transformText('removeNumbers')} className="flex items-center justify-center">
+            <Type className="mr-2 h-4 w-4" /> Remove Numbers
+          </Button>
           <Button onClick={() => transformText('camelCase')} className="flex items-center justify-center">
             <Type className="mr-2 h-4 w-4" /> camelCase
           </Button>
@@ -201,6 +284,9 @@ export default function Tools() {
           </Button>
           <Button onClick={redo} className="flex items-center justify-center">
             <RotateCcw className="mr-2 h-4 w-4 transform rotate-180" /> Redo
+          </Button>
+          <Button onClick={downloadTextFile} className="flex items-center justify-center">
+            <Download className="mr-2 h-4 w-4" /> Download Text
           </Button>
         </div>
       </div>
