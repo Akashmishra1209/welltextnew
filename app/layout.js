@@ -11,6 +11,7 @@ import {
   UserButton,
   UserProfile
 } from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
           >
             <Navbar />
             {children}
+            <Toaster/>
             <Footer />
           </ThemeProvider>
         </body>

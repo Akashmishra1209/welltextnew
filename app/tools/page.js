@@ -23,8 +23,10 @@ import {
   Upload,
   Download,
 } from "lucide-react"
+import { useToast } from '@/hooks/use-toast'
 
 export default function Tools() {
+  const { toast } = useToast()
   const [text, setText] = useState('')
   const [wordCount, setWordCount] = useState(0)
   const [charCount, setCharCount] = useState(0)
@@ -57,22 +59,28 @@ export default function Tools() {
         setText(newText)
         updateCounts(newText)
         addToHistory(newText)
+        toast({
+          description: "File uploaded successfully",
+        })
       }
       reader.readAsText(file)
     }
   }
 
   const downloadTextFile = () => {
-    const filename= prompt("Enter The File Name","WellText")
+    const filename = prompt("Enter The File Name", "WellText")
     const blob = new Blob([text], { type: 'text/plain' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = file+".txt"
+    a.download = filename + ".txt"
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
+    toast({
+      description: "File downloaded successfully",
+    })
   }
 
   const transformText = (transformation) => {
@@ -114,17 +122,17 @@ export default function Tools() {
         newText = text.replace(/\s+/g, '-').toLowerCase()
         break
       case 'titleCase':
-        newText = text.toLowerCase().split(' ').map(word => 
+        newText = text.toLowerCase().split(' ').map(word =>
           word.charAt(0).toUpperCase() + word.slice(1)
         ).join(' ')
         break
       case 'alternatingCase':
-        newText = text.split('').map((char, i) => 
+        newText = text.split('').map((char, i) =>
           i % 2 === 0 ? char.toLowerCase() : char.toUpperCase()
         ).join('')
         break
       case 'reverseWords':
-        newText = text.split(' ').map(word => 
+        newText = text.split(' ').map(word =>
           word.split('').reverse().join('')
         ).join(' ')
         break
@@ -143,16 +151,25 @@ export default function Tools() {
     setText(newText)
     updateCounts(newText)
     addToHistory(newText)
+    toast({
+      description: `Text transformed to ${transformation}`,
+    })
   }
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(text)
+    toast({
+      description: "Text copied to clipboard",
+    })
   }
 
   const clearText = () => {
     setText('')
     updateCounts('')
     addToHistory('')
+    toast({
+      description: "Text cleared",
+    })
   }
 
   const undo = () => {
@@ -160,6 +177,9 @@ export default function Tools() {
       setHistoryIndex(prev => prev - 1)
       setText(history[historyIndex - 1])
       updateCounts(history[historyIndex - 1])
+      toast({
+        description: "Changes undone",
+      })
     }
   }
 
@@ -168,6 +188,9 @@ export default function Tools() {
       setHistoryIndex(prev => prev + 1)
       setText(history[historyIndex + 1])
       updateCounts(history[historyIndex + 1])
+      toast({
+        description: "Changes redone",
+      })
     }
   }
   return (
@@ -243,7 +266,10 @@ export default function Tools() {
           <Button onClick={() => transformText('shuffle')} className="flex items-center justify-center">
             <Shuffle className="mr-2 h-4 w-4" /> Shuffle Words
           </Button>
-          <Button onClick={() => setText(text.split('\n').filter(Boolean).join('\n'))} className="flex items-center justify-center">
+          <Button onClick={() => {
+            setText(text.split('\n').filter(Boolean).join('\n'))
+            toast({ description: "Empty lines removed" })
+          }} className="flex items-center justify-center">
             <Eraser className="mr-2 h-4 w-4" /> Remove Empty Lines
           </Button>
           <Button onClick={() => transformText('sortAsc')} className="flex items-center justify-center">
@@ -252,10 +278,16 @@ export default function Tools() {
           <Button onClick={() => transformText('sortDesc')} className="flex items-center justify-center">
             <SortDesc className="mr-2 h-4 w-4" /> Sort Lines Z-A
           </Button>
-          <Button onClick={() => setText(text.split('\n').map(line => line.trim()).join('\n'))} className="flex items-center justify-center">
+          <Button onClick={() => {
+            setText(text.split('\n').map(line => line.trim()).join('\n'))
+            toast({ description: "Lines trimmed" })
+          }} className="flex items-center justify-center">
             <AlignLeft className="mr-2 h-4 w-4" /> Trim Lines
           </Button>
-          <Button onClick={() => setText(text.replace(/\s+/g, ' '))} className="flex items-center justify-center">
+          <Button onClick={() => {
+            setText(text.replace(/\s+/g, ' '))
+            toast({ description: "Extra spaces removed" })
+          }} className="flex items-center justify-center">
             <AlignJustify className="mr-2 h-4 w-4" /> Remove Extra Spaces
           </Button>
           <Button onClick={() => transformText('removePunctuation')} className="flex items-center justify-center">

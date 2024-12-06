@@ -106,11 +106,11 @@ export default function Home() {
               text with just a click.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 min-[400px]:flex-row justify-center mt-4">
-              <a href="/tools">
+              <Link href="/tools">
                 <Button size="lg" className="font-medium hover:scale-105 transition-transform">
                   Try It Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </a>
+              </Link>
               <Button variant="outline" size="lg" className="font-medium hover:bg-primary/10">
                 View Demo
               </Button>
